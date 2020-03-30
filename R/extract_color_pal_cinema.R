@@ -27,7 +27,7 @@ extract_cpc_pal<- function(fp) {
     rgb(rgb_vals[1], rgb_vals[2], rgb_vals[3])
   })
   
-  colors
+  new_palette(colors, length(colors), "discrete")
   
 }
 
