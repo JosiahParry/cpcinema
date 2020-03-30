@@ -123,6 +123,8 @@ colors_10[c(1, 3, 6, 9)]
 There are also 12 available palettes for you right away. These are
 acessible through the list object `available_pals`.
 
+## notes
+
 This package implements an S3 `cpcinema` class using `vctrs`. The class
 `cpcinema` contains a `Crayon` style in the attributes for each
 color—this is what enables the fun printing. `cpcinema` objects will
