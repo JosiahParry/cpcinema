@@ -26,9 +26,6 @@ new_palette <- function(pal, n, type = c("discrete", "continuous"), ...) {
 }
 
 
-# create new object  
-# colors <- c("#100B07", "#163339", "#492310", "#FFC26F")
-# test_pal <- new_palette(colors, 4, "discrete")
  
 
 #------------------------------------------------------------------------------#
@@ -77,6 +74,8 @@ check_n_colors <- function(pal, n, type) {
 #' 
 #' @export
 color_palette <- function(pal, n, type = c("discrete", "continuous")) {
+  
+  if (cpcinema::is_color_palette(pal)) pal <- as.character(pal)
   
   # checks
   check_palette(pal)                   # palette
