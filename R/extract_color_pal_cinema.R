@@ -10,7 +10,7 @@ extract_cpc_pal<- function(fp) {
   
   if (!file.exists(fp)) {
     tmp <- tempfile()
-    download.file(fp, tmp, mode="wb")
+    download.file(fp, tmp, mode="wb", quiet = TRUE)
     pic <- jpeg::readJPEG(tmp)
     file.remove(tmp)
   } else {
