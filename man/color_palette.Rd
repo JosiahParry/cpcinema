@@ -18,5 +18,5 @@ is_color_palette(pal)
 Construct a new color palette
 }
 \note{
-If `type` is set to `"discrete"`, `n` cannot be greater than the number of unique values in `pal`. `n` can be greater than number of unqiue values in `pal` when `type = "continuous"`. In the latter case, colors are interpolated with `grDevices::colorRampPalette()`.
+If \code{type} is set to \code{"discrete"}, \code{n} cannot be greater than the number of unique values in \code{pal}. \code{n} can be greater than number of unqiue values in \code{pal} when \code{type = "continuous"}. In the latter case, colors are interpolated with \code{grDevices::colorRampPalette()}.
 }

@@ -7,10 +7,17 @@
 #' 
 #' @export
 extract_cpc_pal<- function(fp) {
-  tmp <- tempfile()
-  download.file(fp, tmp, mode="wb")
-  pic <- jpeg::readJPEG(tmp)
-  file.remove(tmp)
+  
+  if (!file.exists(fp)) {
+    tmp <- tempfile()
+    download.file(fp, tmp, mode="wb")
+    pic <- jpeg::readJPEG(tmp)
+    file.remove(tmp)
+  } else {
+    pic <- jpeg::readJPEG(fp)
+  }
+  
+  
   
   img_dims <- dim(pic)
   

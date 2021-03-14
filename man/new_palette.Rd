@@ -7,5 +7,5 @@
 new_palette(pal, n, type = c("discrete", "continuous"), ...)
 }
 \description{
-Creates a new color_palette object. `new_palette()` is much more strict than `color_palette()` and is intended for use in development.
+Creates a new color_palette object. \code{new_palette()} is much more strict than \code{color_palette()} and is intended for use in development.
 }

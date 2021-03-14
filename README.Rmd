@@ -9,7 +9,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  warning = FALSE,
+  message = FALSE
 )
 library(tidyverse)
 ```
@@ -29,26 +31,38 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("remotes")
 remotes::install_github("JosiahParry/cpcinema")
 ```
-## extracting and crafting color palettes
+## Extracting Color Palettes
 
 ```{r echo=FALSE}
-knitr::include_graphics("https://scontent-lga3-1.cdninstagram.com/v/t51.2885-15/e35/88916975_231750381202013_35436369220443926_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_cat=105&_nc_ohc=cVqcSi58uZ4AX_hJXfm&oh=e56453cf87265c2cd2079f4c8fedacb0&oe=5EAC0A60")
+knitr::include_graphics("inst/img/joker.jpg")
 ```
 This still from the Joker (2019) contains a beautiful palette which seems like it may be suitable as a diverging color palette. We can extract these hex codes using `extract_cpc_pal()`. Note that the print method is not effectively displayed in the README. 
 
 ```{r example}
 library(cpcinema)
 
-img_path <- "https://scontent-lga3-1.cdninstagram.com/v/t51.2885-15/e35/88916975_231750381202013_35436369220443926_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_cat=105&_nc_ohc=cVqcSi58uZ4AX_hJXfm&oh=e56453cf87265c2cd2079f4c8fedacb0&oe=5EAC0A60"
+img_path <- system.file("img/joker.jpg", package = "cpcinema")
 
 (joker <- extract_cpc_pal(img_path))
 ```
+
+`r knitr::include_graphics("inst/img/queens-gambit.png")`
+
+
+```{r, message=FALSE}
+pal_from_post("https://www.instagram.com/p/CHvWFaanPDQ/")
+```
+
+## Creating Color Palettes
 
 Moreover, we are able to actually generate color palettes with more or less values than is available in our palette with the `color_palette()` function. 
 
 ```{r}
 colors <- c("#842000", "#EC9B01", "#3F5D91")
-color_palette(colors, n = 3)
+
+my_colors <- color_palette(colors, n = 3)
+
+my_colors
 ```
 
 
@@ -57,18 +71,7 @@ color_palette(colors, n = 3)
 For example, we can take the palette from above and interpolate 7 more colors by setting `n = 10` and `type = "continuous"`. 
 
 ```{r}
-colors_10 <- color_palette(colors, n = 10, "continuous")
-```
-
-```{r}
-ggplot(wesanderson::heatmap, aes(x = X2, y = X1, fill = value)) +
-  geom_tile() + 
-  scale_fill_gradientn(colours = color_palette(joker, n = 100, "continuous")) + 
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_y_discrete(expand = c(0, 0)) + 
-  coord_equal() +
-  labs(x = "", y = "") 
-
+(colors_10 <- color_palette(colors, n = 10, "continuous"))
 ```
 
 
@@ -84,9 +87,46 @@ Moreover, if you'd prefer to select them manually, you can do that as well using
 colors_10[c(1, 3, 6, 9)]
 ```
 
-## available palettes
 
-There are also 12 available palettes for you right away. These are acessible through the list object `available_pals`.
+## Using color palettes
+
+### Continuous data
+
+```{r}
+library(tidyverse)
+
+# create some fake data
+x <- expand.grid(group = 1:10, big = LETTERS) %>% 
+  group_by(group) %>% 
+  mutate(value = rnorm(n(), mean = group))
+
+# plot that fake data
+ggplot(x, aes(x = group, y = big, fill = value)) +
+  geom_tile() + 
+  scale_fill_gradientn(colours = color_palette(joker, n = 100, "continuous")) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) + 
+  coord_equal() +
+  labs(x = "", y = "") 
+
+```
+
+### Discrete data 
+
+```{r}
+ggplot(data = palmerpenguins::penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(aes(color = species,
+                 shape = species),
+             size = 2)  +
+  scale_color_manual(values = my_colors) +
+  theme_light()
+
+```
+
+
+## Available palettes
+
+There are also a number of available palettes for you right away. These are accessible through the list object `available_pals`.
 
 ## notes
 
